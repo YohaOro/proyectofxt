@@ -69,6 +69,45 @@ Para previsualizar la build de producción:
 npm run preview
 ```
 
+## 🔀 Flujo de Trabajo (GitHub Flow)
+
+Este proyecto utiliza **GitHub Flow** como estrategia de desarrollo:
+
+### Ramas
+
+- **`main`**: Rama principal que siempre está en estado de producción estable
+- **`feature/*`**: Ramas para nuevas funcionalidades (ej: `feature/mvp`, `feature/nueva-seccion`)
+
+### Proceso de Desarrollo
+
+1. **Crear una rama feature** desde `main`:
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b feature/nombre-funcionalidad
+   ```
+
+2. **Desarrollar y hacer commits** en la rama feature:
+   ```bash
+   git add .
+   git commit -m "feat: descripción del cambio"
+   git push -u origin feature/nombre-funcionalidad
+   ```
+
+3. **Crear un Pull Request** en GitHub para revisar los cambios
+
+4. **Mergear a `main`** solo cuando todo esté listo y revisado
+
+5. **Despliegue automático**: Al hacer merge a `main`, el workflow de GitHub Actions despliega automáticamente a GitHub Pages
+
+### Ventajas de GitHub Flow
+
+- ✅ `main` siempre está estable y listo para producción
+- ✅ Desarrollo aislado en ramas feature
+- ✅ Revisión de código mediante Pull Requests
+- ✅ Historial limpio y organizado
+- ✅ Despliegue automático desde `main`
+
 ## 🌐 Despliegue en GitHub Pages
 
 GitHub Pages es perfecto para proyectos estáticos como este. Tienes dos opciones:
