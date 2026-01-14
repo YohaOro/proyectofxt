@@ -363,26 +363,26 @@ function renderApp(): void {
         <p class="contact-subtitle">Estamos listos para ayudarte a llevar tu empresa al siguiente nivel</p>
         <div class="contact-content">
           <div class="contact-info">
-            <div class="contact-item">
+              <a href="mailto:forxtech11@gmail.com" class="contact-item contact-link">
               <div class="contact-icon">📧</div>
               <h3>Email</h3>
-              <p>contacto@forxtech.com</p>
-            </div>
-            <div class="contact-item">
+              <p>forxtech11@gmail.com</p>
+            </a>
+            <a href="tel:+541131423688" class="contact-item contact-link">
               <div class="contact-icon">📱</div>
               <h3>Teléfono</h3>
-              <p>+34 912 345 678</p>
-            </div>
-            <div class="contact-item">
+              <p>+54 11 31423688</p>
+            </a>
+            <a href="https://wa.me/541131423688" target="_blank" rel="noopener noreferrer" class="contact-item contact-link">
               <div class="contact-icon">💬</div>
               <h3>WhatsApp</h3>
-              <p>+34 612 345 678</p>
-            </div>
-            <div class="contact-item">
+              <p>+54 11 31423688</p>
+            </a>
+            <a href="https://www.google.com/maps/search/Vicente+Lopez,+Buenos+Aires,+Argentina" target="_blank" rel="noopener noreferrer" class="contact-item contact-link">
               <div class="contact-icon">📍</div>
               <h3>Ubicación</h3>
-              <p>Madrid, España</p>
-            </div>
+              <p>Vicente López, Buenos Aires, Argentina</p>
+            </a>
           </div>
           <form class="contact-form" id="contactForm">
             <div class="form-group">
@@ -414,9 +414,7 @@ function renderApp(): void {
             <p class="footer-text">Soluciones tecnológicas a medida para tu empresa</p>
             <div class="footer-social">
               <a href="#" class="social-link" aria-label="LinkedIn">🔗 LinkedIn</a>
-              <a href="#" class="social-link" aria-label="Twitter">🐦 Twitter</a>
-              <a href="#" class="social-link" aria-label="GitHub">💻 GitHub</a>
-              <a href="#" class="social-link" aria-label="Instagram">📷 Instagram</a>
+              <a href="https://instagram.com/forxtechar" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷 Instagram</a>
             </div>
           </div>
           <div class="footer-section">
@@ -431,10 +429,10 @@ function renderApp(): void {
           <div class="footer-section">
             <h4>Contacto</h4>
             <ul class="footer-links">
-              <li>📧 contacto@forxtech.com</li>
-              <li>📱 +34 912 345 678</li>
-              <li>💬 WhatsApp</li>
-              <li>📍 Madrid, España</li>
+              <li>📧 forxtech11@gmail.com</li>
+              <li>📱 +54 11 31423688</li>
+              <li><a href="https://wa.me/541131423688" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">💬 +54 11 31423688</a></li>
+              <li><a href="https://www.google.com/maps/search/Vicente+Lopez,+Buenos+Aires,+Argentina" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">📍 Vicente López, Buenos Aires, Argentina</a></li>
             </ul>
           </div>
         </div>
