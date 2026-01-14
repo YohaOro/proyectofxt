@@ -53,7 +53,13 @@ function renderApp(): void {
           </div>
         </div>
       </div>
-      <div class="hero-background"></div>
+      <div class="hero-background">
+        <video class="hero-video" autoplay muted loop playsinline>
+          <source src="/2026-01-14T01-05-01_time_lapse_of_the_watermarked.mp4" type="video/mp4">
+          Tu navegador no soporta videos HTML5.
+        </video>
+        <div class="hero-overlay"></div>
+      </div>
     </section>
 
     <!-- Estadísticas Section -->
