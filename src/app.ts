@@ -2,8 +2,12 @@
 interface ContactFormData {
   nombre: string;
   email: string;
+  telefono?: string;
   mensaje: string;
 }
+
+// URL del backend API
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
 // Función principal de inicialización
 export function initApp(): void {
@@ -517,23 +521,53 @@ function setupContactForm(): void {
 }
 
 // Manejar el envío del formulario
-function handleFormSubmit(form: HTMLFormElement): void {
+async function handleFormSubmit(form: HTMLFormElement): Promise<void> {
   const formData = new FormData(form);
+  const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  
+  // Deshabilitar botón mientras se envía
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.textContent = 'Enviando...';
+  }
+
   const data: ContactFormData = {
     nombre: formData.get('nombre') as string,
     email: formData.get('email') as string,
+    telefono: formData.get('telefono') as string || undefined,
     mensaje: formData.get('mensaje') as string
   };
 
-  // Aquí puedes agregar la lógica para enviar el formulario
-  // Por ejemplo, usando un servicio como Formspree, EmailJS, o tu backend
-  console.log('Formulario enviado:', data);
+  try {
+    const response = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
 
-  // Mensaje de confirmación
-  alert('¡Gracias por tu mensaje! Te contactaremos pronto.');
+    const result = await response.json();
 
-  // Limpiar el formulario
-  form.reset();
+    if (response.ok && result.success) {
+      // Mensaje de confirmación
+      alert(result.message || '¡Gracias por tu mensaje! Te contactaremos pronto.');
+      // Limpiar el formulario
+      form.reset();
+    } else {
+      // Error del servidor
+      alert(result.message || 'Error al enviar el mensaje. Por favor intenta más tarde.');
+    }
+  } catch (error) {
+    console.error('Error al enviar el formulario:', error);
+    alert('Error de conexión. Por favor verifica tu conexión a internet e intenta nuevamente.');
+  } finally {
+    // Rehabilitar botón
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar Mensaje';
+    }
+  }
 }
 
 // Configurar efecto de scroll para el header
