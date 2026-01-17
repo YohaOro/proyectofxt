@@ -18,6 +18,7 @@ export function initApp(): void {
   setupHeaderScroll();
   setupScrollAnimations();
   setupFAQ();
+  setupNumberCounter();
 }
 
 // Renderizar el contenido de la aplicación
@@ -59,7 +60,7 @@ function renderApp(): void {
       </div>
       <div class="hero-background">
         <video class="hero-video" autoplay muted loop playsinline>
-          <source src="/2026-01-14T01-05-01_time_lapse_of_the_watermarked.mp4" type="video/mp4">
+          <source src="./video (online-video-cutter.com).mp4" type="video/mp4">
           Tu navegador no soporta videos HTML5.
         </video>
         <div class="hero-overlay"></div>
@@ -71,19 +72,19 @@ function renderApp(): void {
       <div class="container">
         <div class="stats-grid">
           <div class="stat-item">
-            <div class="stat-number">50+</div>
+            <div class="stat-number" data-target="50" data-suffix="+">0+</div>
             <div class="stat-label">Proyectos Completados</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">35+</div>
+            <div class="stat-number" data-target="35" data-suffix="+">0+</div>
             <div class="stat-label">Clientes Satisfechos</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">5+</div>
+            <div class="stat-number" data-target="5" data-suffix="+">0+</div>
             <div class="stat-label">Años de Experiencia</div>
           </div>
           <div class="stat-item">
-            <div class="stat-number">98%</div>
+            <div class="stat-number" data-target="98" data-suffix="%">0%</div>
             <div class="stat-label">Tasa de Satisfacción</div>
           </div>
         </div>
@@ -617,4 +618,97 @@ function setupScrollAnimations(): void {
       observer.observe(element);
     });
   }, 100);
+}
+
+// Configurar contador que suma desde 0 hasta el valor final (efecto lotería)
+function setupNumberCounter(): void {
+  const statsSection = document.querySelector('.estadisticas');
+  if (!statsSection) return;
+
+  const observerOptions: IntersectionObserverInit = {
+    threshold: 0.3,
+    rootMargin: '0px'
+  };
+
+  // Rastrear qué números están siendo animados actualmente
+  const animatingNumbers = new Set<HTMLElement>();
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+          
+          statNumbers.forEach((statEl, index) => {
+            const statElement = statEl as HTMLElement;
+            
+            // Solo animar si no está siendo animado actualmente
+            if (!animatingNumbers.has(statElement)) {
+              const target = parseInt(statElement.getAttribute('data-target') || '0');
+              const suffix = statElement.getAttribute('data-suffix') || '';
+              
+              // Resetear al inicio
+              statElement.textContent = `0${suffix}`;
+              
+              // Marcar como animando
+              animatingNumbers.add(statElement);
+              
+              // Iniciar contador con delay escalonado
+              setTimeout(() => {
+                animateNumber(statElement, target, suffix, 2000, () => {
+                  // Cuando termine la animación, quitar de la lista
+                  animatingNumbers.delete(statElement);
+                });
+              }, index * 200);
+            }
+          });
+        }, 100);
+      } else {
+        // Cuando la sección sale de vista, limpiar la lista para permitir reinicio
+        const statNumbers = document.querySelectorAll('.stat-number[data-target]');
+        statNumbers.forEach((statEl) => {
+          const statElement = statEl as HTMLElement;
+          animatingNumbers.delete(statElement);
+          // Opcionalmente resetear al inicio cuando sale de vista
+          const suffix = statElement.getAttribute('data-suffix') || '';
+          statElement.textContent = `0${suffix}`;
+        });
+      }
+    });
+  }, observerOptions);
+
+  observer.observe(statsSection);
+}
+
+// Función para animar el número desde 0 hasta el target
+function animateNumber(element: HTMLElement, target: number, suffix: string, duration: number, onComplete?: () => void): void {
+  const startTime = Date.now();
+  const startValue = 0;
+  
+  const updateNumber = () => {
+    const elapsed = Date.now() - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    
+    // Easing suave
+    const easeOutCubic = (t: number): number => 1 - Math.pow(1 - t, 3);
+    const easedProgress = easeOutCubic(progress);
+    
+    // Calcular valor actual
+    const currentValue = Math.floor(startValue + (target - startValue) * easedProgress);
+    element.textContent = `${currentValue}${suffix}`;
+    
+    // Continuar si no ha terminado
+    if (progress < 1) {
+      requestAnimationFrame(updateNumber);
+    } else {
+      // Asegurar valor final exacto
+      element.textContent = `${target}${suffix}`;
+      // Ejecutar callback si existe
+      if (onComplete) {
+        onComplete();
+      }
+    }
+  };
+  
+  updateNumber();
 }
