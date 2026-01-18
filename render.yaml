@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: forxtech-api
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build --if-present
+    startCommand: npm run server:prod || tsx server/index.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Agrega aquí tus variables de entorno:
+      # - key: GMAIL_USER
+      #   value: forxtech11@gmail.com
+      # - key: GMAIL_APP_PASSWORD
+      #   value: tu-app-password
+      # - key: RECIPIENT_EMAIL
+      #   value: forxtech11@gmail.com
+      # - key: ALLOWED_ORIGINS
+      #   value: https://yohaoro.github.io
