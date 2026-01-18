@@ -134,7 +134,6 @@ function renderProyectosGrid(): string {
   return proyectos.map(proyecto => renderProyectoCard(proyecto)).join('');
 }
 
->>>>>>> feature/mvp
 // Función principal de inicialización
 export function initApp(): void {
   renderApp();
