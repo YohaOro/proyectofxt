@@ -925,6 +925,17 @@ body {
 .footer-bottom p {
     color: var(--text-secondary);
     font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.antakarana-icon {
+    width: 14px;
+    height: 14px;
+    opacity: 0.8;
+    vertical-align: middle;
+    object-fit: contain;
 }
 
 /* Responsive Design */
