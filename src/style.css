@@ -271,6 +271,16 @@ body {
 .servicio-icon {
     font-size: 3rem;
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.servicio-icon img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(73%) sepia(95%) saturate(1212%) hue-rotate(339deg) brightness(103%) contrast(101%);
 }
 
 .servicio-card h3 {
@@ -390,7 +400,16 @@ body {
     font-size: 2.5rem;
     margin-bottom: 1rem;
     transition: transform 0.3s ease;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-icon img {
+    width: 2.5rem;
+    height: 2.5rem;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(73%) sepia(95%) saturate(1212%) hue-rotate(339deg) brightness(103%) contrast(101%);
 }
 
 .contact-item h3 {
@@ -595,6 +614,16 @@ body {
 .portfolio-icon {
     font-size: 3rem;
     margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portfolio-icon img {
+    width: 3rem;
+    height: 3rem;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(73%) sepia(95%) saturate(1212%) hue-rotate(339deg) brightness(103%) contrast(101%);
 }
 
 .portfolio-card h3 {
@@ -827,10 +856,25 @@ body {
     text-decoration: none;
     transition: color 0.3s ease;
     font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.social-link img {
+    width: 1.2rem;
+    height: 1.2rem;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(66%) sepia(13%) saturate(665%) hue-rotate(186deg) brightness(96%) contrast(89%);
+    transition: filter 0.3s ease;
 }
 
 .social-link:hover {
     color: var(--gold);
+}
+
+.social-link:hover img {
+    filter: brightness(0) saturate(100%) invert(73%) sepia(95%) saturate(1212%) hue-rotate(339deg) brightness(103%) contrast(101%);
 }
 
 .footer-links {
@@ -841,6 +885,17 @@ body {
 .footer-links li {
     margin-bottom: 0.8rem;
     color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.footer-icon {
+    width: 1rem;
+    height: 1rem;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(66%) sepia(13%) saturate(665%) hue-rotate(186deg) brightness(96%) contrast(89%);
+    flex-shrink: 0;
 }
 
 .footer-links a {

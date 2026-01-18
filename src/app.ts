@@ -97,22 +97,22 @@ function renderApp(): void {
         <h2 class="section-title">Nuestros <span class="gradient-text">Servicios</span></h2>
         <div class="servicios-grid">
           <div class="servicio-card">
-            <div class="servicio-icon">📱</div>
+            <div class="servicio-icon"><img src="./device-mobile-heart.svg" alt="Aplicaciones Personalizadas"></div>
             <h3>Aplicaciones Personalizadas</h3>
             <p>Desarrollamos aplicaciones móviles y web a medida, adaptadas a las necesidades específicas de tu empresa.</p>
           </div>
           <div class="servicio-card">
-            <div class="servicio-icon">🌐</div>
+            <div class="servicio-icon"><img src="./world-check.svg" alt="Landing Pages"></div>
             <h3>Landing Pages</h3>
             <p>Creamos landing pages modernas y optimizadas que convierten visitantes en clientes.</p>
           </div>
           <div class="servicio-card">
-            <div class="servicio-icon">💬</div>
+            <div class="servicio-icon"><img src="./message-circle-check.svg" alt="Sistemas de Chat"></div>
             <h3>Sistemas de Chat</h3>
             <p>Implementamos soluciones de chat y comunicación para mejorar la atención al cliente.</p>
           </div>
           <div class="servicio-card">
-            <div class="servicio-icon">⚙️</div>
+            <div class="servicio-icon"><img src="./automation.svg" alt="Automatización"></div>
             <h3>Automatización</h3>
             <p>Automatizamos procesos y mejoramos la gestión de tu PYME con soluciones inteligentes.</p>
           </div>
@@ -165,7 +165,7 @@ function renderApp(): void {
         <h2 class="section-title">Nuestros <span class="gradient-text">Proyectos</span></h2>
         <div class="portfolio-grid">
           <div class="portfolio-card">
-            <div class="portfolio-icon">🛒</div>
+            <div class="portfolio-icon"><img src="./shopping-cart-copy.svg" alt="Sistema de Gestión E-commerce"></div>
             <h3>Sistema de Gestión E-commerce</h3>
             <p>Plataforma completa de comercio electrónico con panel de administración, gestión de inventario y sistema de pagos integrado.</p>
             <div class="portfolio-tech">
@@ -175,7 +175,7 @@ function renderApp(): void {
             </div>
           </div>
           <div class="portfolio-card">
-            <div class="portfolio-icon">📊</div>
+            <div class="portfolio-icon"><img src="./trending-up.svg" alt="Dashboard Analítico"></div>
             <h3>Dashboard Analítico</h3>
             <p>Aplicación web para visualización de datos empresariales con gráficos interactivos y reportes en tiempo real.</p>
             <div class="portfolio-tech">
@@ -185,7 +185,7 @@ function renderApp(): void {
             </div>
           </div>
           <div class="portfolio-card">
-            <div class="portfolio-icon">💼</div>
+            <div class="portfolio-icon"><img src="./briefcase.svg" alt="Sistema CRM Personalizado"></div>
             <h3>Sistema CRM Personalizado</h3>
             <p>Gestor de relaciones con clientes diseñado específicamente para el sector inmobiliario con funcionalidades avanzadas.</p>
             <div class="portfolio-tech">
@@ -195,7 +195,7 @@ function renderApp(): void {
             </div>
           </div>
           <div class="portfolio-card">
-            <div class="portfolio-icon">📱</div>
+            <div class="portfolio-icon"><img src="./devices.svg" alt="App Móvil de Delivery"></div>
             <h3>App Móvil de Delivery</h3>
             <p>Aplicación móvil nativa para iOS y Android con geolocalización, seguimiento en tiempo real y sistema de notificaciones push.</p>
             <div class="portfolio-tech">
@@ -375,22 +375,17 @@ function renderApp(): void {
         <div class="contact-content">
           <div class="contact-info">
               <a href="mailto:forxtech11@gmail.com" class="contact-item contact-link">
-              <div class="contact-icon">📧</div>
+              <div class="contact-icon"><img src="./mail-fast.svg" alt="Email"></div>
               <h3>Email</h3>
               <p>forxtech11@gmail.com</p>
             </a>
-            <a href="tel:+541131423688" class="contact-item contact-link">
-              <div class="contact-icon">📱</div>
-              <h3>Teléfono</h3>
-              <p>+54 11 31423688</p>
-            </a>
             <a href="https://wa.me/541131423688" target="_blank" rel="noopener noreferrer" class="contact-item contact-link">
-              <div class="contact-icon">💬</div>
+              <div class="contact-icon"><img src="./device-mobile-message.svg" alt="WhatsApp"></div>
               <h3>WhatsApp</h3>
               <p>+54 11 31423688</p>
             </a>
             <a href="https://www.google.com/maps/search/Vicente+Lopez,+Buenos+Aires,+Argentina" target="_blank" rel="noopener noreferrer" class="contact-item contact-link">
-              <div class="contact-icon">📍</div>
+              <div class="contact-icon"><img src="./map-2.svg" alt="Ubicación"></div>
               <h3>Ubicación</h3>
               <p>Vicente López, Buenos Aires, Argentina</p>
             </a>
@@ -424,8 +419,12 @@ function renderApp(): void {
             </div>
             <p class="footer-text">Soluciones tecnológicas a medida para tu empresa</p>
             <div class="footer-social">
-              <a href="#" class="social-link" aria-label="LinkedIn">🔗 LinkedIn</a>
-              <a href="https://instagram.com/forxtechar" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">📷 Instagram</a>
+              <a href="#" class="social-link" aria-label="LinkedIn">
+                <img src="./brand-linkedin.svg" alt="LinkedIn"> LinkedIn
+              </a>
+              <a href="https://instagram.com/forxtechar" target="_blank" rel="noopener noreferrer" class="social-link" aria-label="Instagram">
+                <img src="./brand-instagram.svg" alt="Instagram"> Instagram
+              </a>
             </div>
           </div>
           <div class="footer-section">
@@ -440,10 +439,9 @@ function renderApp(): void {
           <div class="footer-section">
             <h4>Contacto</h4>
             <ul class="footer-links">
-              <li>📧 forxtech11@gmail.com</li>
-              <li>📱 +54 11 31423688</li>
-              <li><a href="https://wa.me/541131423688" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">💬 +54 11 31423688</a></li>
-              <li><a href="https://www.google.com/maps/search/Vicente+Lopez,+Buenos+Aires,+Argentina" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">📍 Vicente López, Buenos Aires, Argentina</a></li>
+              <li><img src="./mail-fast.svg" alt="Email" class="footer-icon"> forxtech11@gmail.com</li>
+              <li><a href="https://wa.me/541131423688" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;"><img src="./device-mobile-message.svg" alt="WhatsApp" class="footer-icon"> +54 11 31423688</a></li>
+              <li><a href="https://www.google.com/maps/search/Vicente+Lopez,+Buenos+Aires,+Argentina" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;"><img src="./map-2.svg" alt="Ubicación" class="footer-icon"> Vicente López, Buenos Aires, Argentina</a></li>
             </ul>
           </div>
         </div>
