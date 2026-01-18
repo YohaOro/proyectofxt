@@ -22,6 +22,18 @@ const contactLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Rate limiting para endpoint de salud (10 solicitudes por minuto)
+const healthLimiter = rateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minuto
+  max: 10, // máximo 10 solicitudes por IP por minuto
+  message: {
+    success: false,
+    message: 'Demasiadas solicitudes desde esta IP, por favor intenta más tarde.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 // Configuración de CORS - permitir solo orígenes específicos
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
@@ -51,9 +63,38 @@ app.use((_req, res, next) => {
 // Rutas
 app.use('/api/contact', contactLimiter, contactRoutes);
 
-// Ruta de salud
-app.get('/api/health', (_req, res) => {
+// Ruta de salud (con rate limiting)
+app.get('/api/health', healthLimiter, (_req, res) => {
   res.json({ status: 'ok', message: 'Servidor funcionando correctamente' });
+});
+
+// Middleware de manejo de errores global (debe ir al final, antes de iniciar el servidor)
+app.use((err: Error, _req: express.Request, res: express.Response, next: express.NextFunction) => {
+  // Si la respuesta ya fue enviada, delegar al manejador de errores por defecto de Express
+  if (res.headersSent) {
+    return next(err);
+  }
+
+  // Log del error (detallado solo en desarrollo)
+  if (process.env.NODE_ENV === 'development') {
+    console.error('Error no manejado:', err);
+  } else {
+    console.error('Error no manejado:', err.message);
+  }
+
+  // Respuesta genérica al cliente (no exponer detalles)
+  res.status(500).json({
+    success: false,
+    message: 'Error interno del servidor. Por favor intenta más tarde.'
+  });
+});
+
+// Middleware para rutas no encontradas (404)
+app.use((_req: express.Request, res: express.Response) => {
+  res.status(404).json({
+    success: false,
+    message: 'Ruta no encontrada'
+  });
 });
 
 // Iniciar servidor

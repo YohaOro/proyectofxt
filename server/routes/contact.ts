@@ -10,9 +10,13 @@ interface ContactFormData {
   mensaje: string;
 }
 
-// Función para sanitizar y validar strings
+// Función para sanitizar y validar strings (mejorada: elimina caracteres de control)
 function sanitizeString(str: string, maxLength: number = 1000): string {
-  return str.trim().slice(0, maxLength);
+  return str
+    .trim()
+    // Eliminar caracteres de control (excepto \n, \r, \t que son válidos)
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+    .slice(0, maxLength);
 }
 
 // Endpoint para recibir el formulario de contacto

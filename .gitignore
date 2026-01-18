@@ -28,3 +28,12 @@ yarn-error.log*
 
 # Backend build
 server/dist/
+
+# Documentación temporal/guías (no subir a GitHub)
+*.md
+!README.md
+DEPLOY_BACKEND.md
+DEPLOY_RENDER_CHECKLIST.md
+GUIA_RENDER_PASO_A_PASO.md
+ANALISIS_SEGURIDAD_BACKEND.md
+PALETA_COLORES.md
