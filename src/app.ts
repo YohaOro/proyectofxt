@@ -22,10 +22,11 @@ interface Proyecto {
 }
 
 // URL del backend API - detectar automáticamente si estamos en producción
+// Si tienes un backend en producción, configura VITE_API_URL en el build o agrega la URL aquí
 const API_URL = import.meta.env.VITE_API_URL || 
   (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
     ? 'http://localhost:3001/api'
-    : null; // En producción sin backend, null indica que no hay backend disponible
+    : 'https://proyectofxt.onrender.com/api'; // Backend en Render.com
 
 // Datos de servicios
 const servicios: Servicio[] = [
@@ -683,7 +684,7 @@ async function handleFormSubmit(form: HTMLFormElement): Promise<void> {
     const subject = encodeURIComponent(`Contacto desde ForXTech - ${data.nombre}`);
     const body = encodeURIComponent(`Nombre: ${data.nombre}\nEmail: ${data.email}\nTeléfono: ${data.telefono || 'No proporcionado'}\n\nMensaje:\n${data.mensaje}`);
     window.location.href = `mailto:forxtech11@gmail.com?subject=${subject}&body=${body}`;
-    showFormMessage('Se abrirá tu cliente de email. Por favor completa el envío del mensaje.', 'success');
+    showFormMessage('Redirigiendo a tu cliente de email...', 'success');
     form.reset();
     if (submitButton) {
       submitButton.disabled = false;
