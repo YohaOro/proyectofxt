@@ -458,17 +458,18 @@ function renderApp(): void {
             </a>
           </div>
           <form class="contact-form" id="contactForm">
+            <div id="form-message" class="form-message" style="display: none;"></div>
             <div class="form-group">
-              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+              <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required maxlength="100">
             </div>
             <div class="form-group">
-              <input type="email" id="email" name="email" placeholder="Tu email" required>
+              <input type="email" id="email" name="email" placeholder="Tu email" required maxlength="255">
             </div>
             <div class="form-group">
-              <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono (opcional)">
+              <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono (opcional)" maxlength="20">
             </div>
             <div class="form-group">
-              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos sobre tu proyecto" rows="5" required></textarea>
+              <textarea id="mensaje" name="mensaje" placeholder="Cuéntanos sobre tu proyecto" rows="5" required maxlength="2000"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
           </form>
@@ -586,10 +587,69 @@ function setupContactForm(): void {
   });
 }
 
+// Función para mostrar mensajes de formulario (reemplaza alert())
+function showFormMessage(message: string, type: 'success' | 'error' = 'success'): void {
+  const messageEl = document.getElementById('form-message');
+  if (!messageEl) return;
+
+  messageEl.textContent = message;
+  messageEl.className = `form-message form-message-${type}`;
+  messageEl.style.display = 'block';
+
+  // Auto-ocultar después de 5 segundos
+  setTimeout(() => {
+    messageEl.style.display = 'none';
+  }, 5000);
+
+  // Scroll suave al mensaje
+  messageEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Función para validar datos del formulario en frontend
+function validateFormData(data: ContactFormData): { valid: boolean; error?: string } {
+  // Validar nombre
+  if (!data.nombre || data.nombre.trim().length < 2) {
+    return { valid: false, error: 'El nombre debe tener al menos 2 caracteres.' };
+  }
+  if (data.nombre.length > 100) {
+    return { valid: false, error: 'El nombre no puede exceder 100 caracteres.' };
+  }
+
+  // Validar email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!data.email || !emailRegex.test(data.email)) {
+    return { valid: false, error: 'Por favor ingresa un email válido.' };
+  }
+  if (data.email.length > 255) {
+    return { valid: false, error: 'El email no puede exceder 255 caracteres.' };
+  }
+
+  // Validar mensaje
+  if (!data.mensaje || data.mensaje.trim().length < 10) {
+    return { valid: false, error: 'El mensaje debe tener al menos 10 caracteres.' };
+  }
+  if (data.mensaje.length > 2000) {
+    return { valid: false, error: 'El mensaje no puede exceder 2000 caracteres.' };
+  }
+
+  // Validar teléfono (opcional)
+  if (data.telefono && data.telefono.length > 20) {
+    return { valid: false, error: 'El teléfono no puede exceder 20 caracteres.' };
+  }
+
+  return { valid: true };
+}
+
 // Manejar el envío del formulario
 async function handleFormSubmit(form: HTMLFormElement): Promise<void> {
   const formData = new FormData(form);
   const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+  
+  // Ocultar mensajes anteriores
+  const messageEl = document.getElementById('form-message');
+  if (messageEl) {
+    messageEl.style.display = 'none';
+  }
   
   // Deshabilitar botón mientras se envía
   if (submitButton) {
@@ -598,11 +658,22 @@ async function handleFormSubmit(form: HTMLFormElement): Promise<void> {
   }
 
   const data: ContactFormData = {
-    nombre: formData.get('nombre') as string,
-    email: formData.get('email') as string,
-    telefono: formData.get('telefono') as string || undefined,
-    mensaje: formData.get('mensaje') as string
+    nombre: (formData.get('nombre') as string)?.trim() || '',
+    email: (formData.get('email') as string)?.trim() || '',
+    telefono: (formData.get('telefono') as string)?.trim() || undefined,
+    mensaje: (formData.get('mensaje') as string)?.trim() || ''
   };
+
+  // Validación en frontend antes de enviar
+  const validation = validateFormData(data);
+  if (!validation.valid) {
+    showFormMessage(validation.error || 'Por favor completa todos los campos correctamente.', 'error');
+    if (submitButton) {
+      submitButton.disabled = false;
+      submitButton.textContent = 'Enviar Mensaje';
+    }
+    return;
+  }
 
   try {
     const response = await fetch(`${API_URL}/contact`, {
@@ -613,20 +684,28 @@ async function handleFormSubmit(form: HTMLFormElement): Promise<void> {
       body: JSON.stringify(data)
     });
 
-    const result = await response.json();
+    let result;
+    try {
+      result = await response.json();
+    } catch (e) {
+      throw new Error('Respuesta del servidor no válida');
+    }
 
     if (response.ok && result.success) {
       // Mensaje de confirmación
-      alert(result.message || '¡Gracias por tu mensaje! Te contactaremos pronto.');
+      showFormMessage(result.message || '¡Gracias por tu mensaje! Te contactaremos pronto.', 'success');
       // Limpiar el formulario
       form.reset();
     } else {
       // Error del servidor
-      alert(result.message || 'Error al enviar el mensaje. Por favor intenta más tarde.');
+      showFormMessage(result.message || 'Error al enviar el mensaje. Por favor intenta más tarde.', 'error');
     }
   } catch (error) {
-    console.error('Error al enviar el formulario:', error);
-    alert('Error de conexión. Por favor verifica tu conexión a internet e intenta nuevamente.');
+    // No loggear detalles del error en producción
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error al enviar el formulario:', error);
+    }
+    showFormMessage('Error de conexión. Por favor verifica tu conexión a internet e intenta nuevamente.', 'error');
   } finally {
     // Rehabilitar botón
     if (submitButton) {

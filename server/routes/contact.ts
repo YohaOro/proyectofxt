@@ -67,7 +67,14 @@ router.post('/', async (req: Request, res: Response) => {
       message: '¡Mensaje enviado correctamente! Te contactaremos pronto.'
     });
   } catch (error) {
-    console.error('Error al procesar el formulario:', error);
+    // Log detallado solo en desarrollo
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error al procesar el formulario:', error);
+    } else {
+      console.error('Error al procesar el formulario');
+    }
+    
+    // No exponer detalles del error al cliente
     res.status(500).json({
       success: false,
       message: 'Error al enviar el mensaje. Por favor intenta más tarde.'
