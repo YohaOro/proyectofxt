@@ -6,8 +6,133 @@ interface ContactFormData {
   mensaje: string;
 }
 
+// Interfaz para los servicios
+interface Servicio {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+// Interfaz para los proyectos
+interface Proyecto {
+  icon: string;
+  title: string;
+  description: string;
+  technologies: string[];
+}
+
 // URL del backend API
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+
+// Datos de servicios
+const servicios: Servicio[] = [
+  {
+    icon: './device-mobile-heart.svg',
+    title: 'Aplicaciones Personalizadas',
+    description: 'Desarrollamos aplicaciones móviles y web a medida con las últimas tecnologías, adaptadas a las necesidades específicas de tu empresa para maximizar la productividad.'
+  },
+  {
+    icon: './world-check.svg',
+    title: 'Landing Pages',
+    description: 'Creamos landing pages modernas, optimizadas para SEO y conversión, que transforman visitantes en clientes potenciales y aumentan tus ventas.'
+  },
+  {
+    icon: './message-circle-check.svg',
+    title: 'Sistemas de Chat',
+    description: 'Implementamos soluciones de chat en tiempo real integradas con tus canales de comunicación para mejorar la atención al cliente y la experiencia del usuario.'
+  },
+  {
+    icon: './automation.svg',
+    title: 'Automatización',
+    description: 'Automatizamos procesos empresariales repetitivos para optimizar la gestión de tu PYME, reducir errores y liberar tiempo para actividades estratégicas.'
+  },
+  {
+    icon: './packages.svg',
+    title: 'Sistemas ERP',
+    description: 'Implementamos sistemas ERP personalizados que integran todas las áreas de tu negocio: finanzas, inventario, recursos humanos y ventas en una sola plataforma.'
+  },
+  {
+    icon: './message-dots.svg',
+    title: 'Chatbots Inteligentes',
+    description: 'Desarrollamos chatbots con inteligencia artificial para atención al cliente 24/7, mejorando la experiencia del usuario y optimizando los recursos de tu empresa.'
+  }
+];
+
+// Datos de proyectos
+const proyectos: Proyecto[] = [
+  {
+    icon: './shopping-cart-copy.svg',
+    title: 'Sistema de Gestión E-commerce',
+    description: 'Plataforma completa de comercio electrónico con panel de administración intuitivo, gestión de inventario en tiempo real, sistema de pagos integrado y análisis de ventas avanzado.',
+    technologies: ['React', 'Node.js', 'MongoDB']
+  },
+  {
+    icon: './trending-up.svg',
+    title: 'Dashboard Analítico',
+    description: 'Aplicación web empresarial para visualización de datos con gráficos interactivos, reportes personalizables en tiempo real y análisis predictivo para toma de decisiones informadas.',
+    technologies: ['Vue.js', 'Python', 'PostgreSQL']
+  },
+  {
+    icon: './briefcase.svg',
+    title: 'Sistema CRM Personalizado',
+    description: 'Gestor de relaciones con clientes diseñado específicamente para el sector inmobiliario con pipeline de ventas, gestión de propiedades y automatización de seguimientos.',
+    technologies: ['Angular', '.NET', 'SQL Server']
+  },
+  {
+    icon: './devices.svg',
+    title: 'App Móvil de Delivery',
+    description: 'Aplicación móvil nativa para iOS y Android con geolocalización en tiempo real, seguimiento de pedidos, sistema de notificaciones push y múltiples métodos de pago integrados.',
+    technologies: ['React Native', 'Firebase', 'API REST']
+  },
+  {
+    icon: './packages.svg',
+    title: 'Sistema ERP Integrado',
+    description: 'Sistema de planificación de recursos empresariales que integra finanzas, inventario, compras y recursos humanos en una plataforma unificada con reportes consolidados y análisis avanzado.',
+    technologies: ['React', 'Node.js', 'PostgreSQL']
+  },
+  {
+    icon: './message-dots.svg',
+    title: 'Plataforma con Chatbot IA',
+    description: 'Sistema de atención al cliente automatizado con chatbot inteligente basado en IA, integrado con múltiples canales y capacidad de aprendizaje continuo para mejorar las respuestas.',
+    technologies: ['Python', 'Node.js', 'OpenAI API']
+  }
+];
+
+// Función para generar HTML de una card de servicio
+function renderServicioCard(servicio: Servicio): string {
+  return `
+    <div class="servicio-card">
+      <div class="servicio-icon"><img src="${servicio.icon}" alt="${servicio.title}"></div>
+      <h3>${servicio.title}</h3>
+      <p>${servicio.description}</p>
+    </div>
+  `;
+}
+
+// Función para generar HTML de una card de proyecto
+function renderProyectoCard(proyecto: Proyecto): string {
+  const techTags = proyecto.technologies.map(tech => `<span>${tech}</span>`).join('');
+  return `
+    <div class="portfolio-card">
+      <div class="portfolio-icon"><img src="${proyecto.icon}" alt="${proyecto.title}"></div>
+      <h3>${proyecto.title}</h3>
+      <p>${proyecto.description}</p>
+      <div class="portfolio-tech">
+        ${techTags}
+      </div>
+    </div>
+  `;
+}
+
+// Función para generar todas las cards de servicios
+function renderServiciosGrid(): string {
+  return servicios.map(servicio => renderServicioCard(servicio)).join('');
+}
+
+// Función para generar todas las cards de proyectos
+function renderProyectosGrid(): string {
+  return proyectos.map(proyecto => renderProyectoCard(proyecto)).join('');
+}
 
 // Función principal de inicialización
 export function initApp(): void {
@@ -96,26 +221,7 @@ function renderApp(): void {
       <div class="container">
         <h2 class="section-title">Nuestros <span class="gradient-text">Servicios</span></h2>
         <div class="servicios-grid">
-          <div class="servicio-card">
-            <div class="servicio-icon"><img src="./device-mobile-heart.svg" alt="Aplicaciones Personalizadas"></div>
-            <h3>Aplicaciones Personalizadas</h3>
-            <p>Desarrollamos aplicaciones móviles y web a medida, adaptadas a las necesidades específicas de tu empresa.</p>
-          </div>
-          <div class="servicio-card">
-            <div class="servicio-icon"><img src="./world-check.svg" alt="Landing Pages"></div>
-            <h3>Landing Pages</h3>
-            <p>Creamos landing pages modernas y optimizadas que convierten visitantes en clientes.</p>
-          </div>
-          <div class="servicio-card">
-            <div class="servicio-icon"><img src="./message-circle-check.svg" alt="Sistemas de Chat"></div>
-            <h3>Sistemas de Chat</h3>
-            <p>Implementamos soluciones de chat y comunicación para mejorar la atención al cliente.</p>
-          </div>
-          <div class="servicio-card">
-            <div class="servicio-icon"><img src="./automation.svg" alt="Automatización"></div>
-            <h3>Automatización</h3>
-            <p>Automatizamos procesos y mejoramos la gestión de tu PYME con soluciones inteligentes.</p>
-          </div>
+          ${renderServiciosGrid()}
         </div>
       </div>
     </section>
@@ -164,46 +270,7 @@ function renderApp(): void {
       <div class="container">
         <h2 class="section-title">Nuestros <span class="gradient-text">Proyectos</span></h2>
         <div class="portfolio-grid">
-          <div class="portfolio-card">
-            <div class="portfolio-icon"><img src="./shopping-cart-copy.svg" alt="Sistema de Gestión E-commerce"></div>
-            <h3>Sistema de Gestión E-commerce</h3>
-            <p>Plataforma completa de comercio electrónico con panel de administración, gestión de inventario y sistema de pagos integrado.</p>
-            <div class="portfolio-tech">
-              <span>React</span>
-              <span>Node.js</span>
-              <span>MongoDB</span>
-            </div>
-          </div>
-          <div class="portfolio-card">
-            <div class="portfolio-icon"><img src="./trending-up.svg" alt="Dashboard Analítico"></div>
-            <h3>Dashboard Analítico</h3>
-            <p>Aplicación web para visualización de datos empresariales con gráficos interactivos y reportes en tiempo real.</p>
-            <div class="portfolio-tech">
-              <span>Vue.js</span>
-              <span>Python</span>
-              <span>PostgreSQL</span>
-            </div>
-          </div>
-          <div class="portfolio-card">
-            <div class="portfolio-icon"><img src="./briefcase.svg" alt="Sistema CRM Personalizado"></div>
-            <h3>Sistema CRM Personalizado</h3>
-            <p>Gestor de relaciones con clientes diseñado específicamente para el sector inmobiliario con funcionalidades avanzadas.</p>
-            <div class="portfolio-tech">
-              <span>Angular</span>
-              <span>.NET</span>
-              <span>SQL Server</span>
-            </div>
-          </div>
-          <div class="portfolio-card">
-            <div class="portfolio-icon"><img src="./devices.svg" alt="App Móvil de Delivery"></div>
-            <h3>App Móvil de Delivery</h3>
-            <p>Aplicación móvil nativa para iOS y Android con geolocalización, seguimiento en tiempo real y sistema de notificaciones push.</p>
-            <div class="portfolio-tech">
-              <span>React Native</span>
-              <span>Firebase</span>
-              <span>API REST</span>
-            </div>
-          </div>
+          ${renderProyectosGrid()}
         </div>
       </div>
     </section>
