@@ -10,12 +10,34 @@ interface ContactFormData {
   mensaje: string;
 }
 
+// Función para sanitizar y validar strings
+function sanitizeString(str: string, maxLength: number = 1000): string {
+  return str.trim().slice(0, maxLength);
+}
+
 // Endpoint para recibir el formulario de contacto
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { nombre, email, telefono, mensaje }: ContactFormData = req.body;
+    let { nombre, email, telefono, mensaje }: ContactFormData = req.body;
 
     // Validación básica
+    if (!nombre || !email || !mensaje) {
+      return res.status(400).json({
+        success: false,
+        message: 'Por favor completa todos los campos requeridos'
+      });
+    }
+
+    // Sanitizar y validar longitud de campos
+    nombre = sanitizeString(nombre, 100);
+    email = sanitizeString(email, 255);
+    mensaje = sanitizeString(mensaje, 2000);
+    
+    if (telefono) {
+      telefono = sanitizeString(telefono, 20);
+    }
+
+    // Validar que los campos no estén vacíos después de sanitizar
     if (!nombre || !email || !mensaje) {
       return res.status(400).json({
         success: false,

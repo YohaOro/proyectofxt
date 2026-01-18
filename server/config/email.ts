@@ -7,6 +7,18 @@ interface ContactEmailData {
   mensaje: string;
 }
 
+// Función para escapar caracteres HTML y prevenir XSS
+function escapeHtml(text: string): string {
+  const map: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#039;'
+  };
+  return text.replace(/[&<>"']/g, (m) => map[m]);
+}
+
 // Crear transporter con las credenciales de email
 const createTransporter = () => {
   // Opción 1: SMTP genérico (funciona con Gmail, Outlook, DonWeb, etc.)
@@ -50,17 +62,23 @@ export const sendContactEmail = async (data: ContactEmailData): Promise<void> =>
   const transporter = createTransporter();
   const recipientEmail = process.env.RECIPIENT_EMAIL || 'forxtech11@gmail.com';
 
+  // Sanitizar datos para prevenir XSS
+  const sanitizedNombre = escapeHtml(data.nombre);
+  const sanitizedEmail = escapeHtml(data.email);
+  const sanitizedTelefono = escapeHtml(data.telefono);
+  const sanitizedMensaje = escapeHtml(data.mensaje).replace(/\n/g, '<br>');
+
   const mailOptions = {
     from: process.env.SMTP_FROM || process.env.GMAIL_USER || 'noreply@forxtech.com',
     to: recipientEmail,
-    subject: `Nuevo mensaje de contacto de ${data.nombre}`,
+    subject: `Nuevo mensaje de contacto de ${sanitizedNombre}`,
     html: `
       <h2>Nuevo mensaje de contacto</h2>
-      <p><strong>Nombre:</strong> ${data.nombre}</p>
-      <p><strong>Email:</strong> ${data.email}</p>
-      <p><strong>Teléfono:</strong> ${data.telefono}</p>
+      <p><strong>Nombre:</strong> ${sanitizedNombre}</p>
+      <p><strong>Email:</strong> ${sanitizedEmail}</p>
+      <p><strong>Teléfono:</strong> ${sanitizedTelefono}</p>
       <p><strong>Mensaje:</strong></p>
-      <p>${data.mensaje.replace(/\n/g, '<br>')}</p>
+      <p>${sanitizedMensaje}</p>
       <hr>
       <p><em>Este mensaje fue enviado desde el formulario de contacto de ForXTech</em></p>
     `,
