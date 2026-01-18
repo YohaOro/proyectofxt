@@ -513,7 +513,7 @@ function renderApp(): void {
           </div>
         </div>
         <div class="footer-bottom">
-          <p>&copy; 2024 ForXTech. Todos los derechos reservados.</p>
+          <p>&copy; 2024 ForXTech. Todos los derechos reservados. <img src="./antakarana.png" alt="Antakarana" class="antakarana-icon" /></p>
         </div>
       </div>
     </footer>
